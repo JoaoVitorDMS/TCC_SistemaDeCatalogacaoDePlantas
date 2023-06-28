@@ -1,0 +1,69 @@
+<?php
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class OrdemDaPlantaEquivalenciaLimiteTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function testStoreEntradaValida()
+    {
+        $entradaValida = [
+            'nome' => 'Nome válido',
+            'descricao' => 'Descrição válida',
+        ];
+
+        $response = $this->postJson('/api/ordem-da-planta', $entradaValida);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'nome' => 'Nome válido',
+                'descricao' => 'Descrição válida',
+            ]);
+    }
+
+    public function testStoreEntradaInvalida()
+    {
+        $entradaInvalida = [
+            'nome' => '',
+            'descricao' => 'Descrição válida',
+        ];
+
+        $response = $this->postJson('/api/ordem-da-planta', $entradaInvalida);
+
+        $response->assertStatus(422);
+    }
+
+    public function testUpdateEntradaValida()
+    {
+        $ordemPlanta = OrdemPlanta::factory()->create();
+
+        $entradaValida = [
+            'nome' => 'Nome atualizado',
+            'descricao' => 'Descrição atualizada',
+        ];
+
+        $response = $this->putJson("/api/ordem-da-planta/{$ordemPlanta->id}", $entradaValida);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'nome' => 'Nome atualizado',
+                'descricao' => 'Descrição atualizada',
+            ]);
+    }
+
+    public function testUpdateEntradaInvalida()
+    {
+        $ordemPlanta = OrdemPlanta::factory()->create();
+
+        $entradaInvalida = [
+            'nome' => '',
+            'descricao' => 'Descrição atualizada',
+        ];
+
+        $response = $this->putJson("/api/ordem-da-planta/{$ordemPlanta->id}", $entradaInvalida);
+
+        $response->assertStatus(422);
+    }
+}
