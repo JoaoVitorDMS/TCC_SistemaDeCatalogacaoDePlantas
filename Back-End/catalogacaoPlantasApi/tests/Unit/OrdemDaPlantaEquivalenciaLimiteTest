@@ -14,7 +14,7 @@ class OrdemDaPlantaEquivalenciaLimiteTest extends TestCase
             'descricao' => 'Descrição válida',
         ];
 
-        $response = $this->postJson('/api/ordem-da-planta', $entradaValida);
+        $response = $this->json('POST', '/api/ordem-da-planta', $entradaValida);
 
         $response->assertStatus(201)
             ->assertJson([
@@ -30,7 +30,7 @@ class OrdemDaPlantaEquivalenciaLimiteTest extends TestCase
             'descricao' => 'Descrição válida',
         ];
 
-        $response = $this->postJson('/api/ordem-da-planta', $entradaInvalida);
+        $response = $this->Json('POST', '/api/ordem-da-planta', $entradaInvalida);
 
         $response->assertStatus(422);
     }
@@ -44,7 +44,7 @@ class OrdemDaPlantaEquivalenciaLimiteTest extends TestCase
             'descricao' => 'Descrição atualizada',
         ];
 
-        $response = $this->putJson("/api/ordem-da-planta/{$ordemPlanta->id}", $entradaValida);
+        $response = $this->json('PUT', "/api/ordem-da-planta/{$ordemPlanta->id}", $entradaValida);
 
         $response->assertStatus(200)
             ->assertJson([
@@ -62,7 +62,7 @@ class OrdemDaPlantaEquivalenciaLimiteTest extends TestCase
             'descricao' => 'Descrição atualizada',
         ];
 
-        $response = $this->putJson("/api/ordem-da-planta/{$ordemPlanta->id}", $entradaInvalida);
+        $response = $this->json('PUT', "/api/ordem-da-planta/{$ordemPlanta->id}", $entradaInvalida);
 
         $response->assertStatus(422);
     }
